@@ -1,0 +1,200 @@
+/* ------------------------------------------------------------------ */
+/* Hero — new centered layout                                          */
+/* ------------------------------------------------------------------ */
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem 5rem;
+    max-width: 760px;
+    margin: 0 auto;
+    gap: 0;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #e6f7f4;
+    color: #1a7a5e;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1.75rem;
+    border: 1px solid #b6e6db;
+}
+
+.hero-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1a7a5e;
+    flex-shrink: 0;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 4.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+}
+
+.hero-title-teal {
+    display: block;
+    color: #1a7a5e;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 2rem;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3.5rem;
+}
+
+.hero-actions .btn-primary,
+.hero-actions .btn-secondary {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.7rem 1.6rem;
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.hero-actions .btn-primary:hover,
+.hero-actions .btn-secondary:hover {
+    background: #222;
+}
+
+/* ------------------------------------------------------------------ */
+/* App preview frame                                                   */
+/* ------------------------------------------------------------------ */
+
+.hero-preview {
+    width: 100%;
+    max-width: 640px;
+    background: #f0ede6;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem 1.5rem;
+}
+
+.preview-traffic-lights {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.tl {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.tl-red    { background: #ff5f57; }
+.tl-yellow { background: #febc2e; }
+.tl-green  { background: #28c840; }
+
+.preview-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.stat-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.3rem;
+}
+
+.stat-value {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--ink);
+    line-height: 1.1;
+}
+
+.stat-note {
+    font-size: 0.72rem;
+    margin-top: 0.2rem;
+}
+
+.stat-note-red  { color: #e05a2b; }
+.stat-note-teal { color: #1a7a5e; }
+.stat-note-gray { color: var(--ink-faint); }
+
+.preview-bars {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.preview-bar-row {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.preview-bar-label {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+}
+
+.preview-bar-track {
+    height: 8px;
+    background: var(--border-soft);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.preview-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+}
+
+.bar-orange { background: #f0a500; }
+.bar-blue   { background: #3b82f6; }
+.bar-purple { background: #6366f1; }
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                          */
+/* ------------------------------------------------------------------ */
+
+@media (max-width: 600px) {
+    .preview-stats { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: center; }
+}
