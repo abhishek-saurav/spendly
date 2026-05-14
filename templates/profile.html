@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Profile — Spendly{% endblock %}
+
+{% block head %}
+<script src="https://unpkg.com/lucide@latest"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-page">
+    <div class="profile-inner">
+
+        <div class="profile-header">
+            <h1 class="profile-title">Your Profile</h1>
+            <p class="profile-subtitle">Manage your account details and password</p>
+        </div>
+
+        <div class="profile-layout">
+
+            <!-- Left column: account info + stats -->
+            <aside class="profile-sidebar">
+
+                <div class="profile-card profile-account">
+                    <div class="profile-avatar">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <div class="profile-identity">
+                        <p class="profile-name">{{ user["name"] }}</p>
+                        <p class="profile-email">{{ user["email"] }}</p>
+                    </div>
+                    <dl class="profile-meta">
+                        <div class="profile-meta-row">
+                            <dt><i data-lucide="calendar"></i> Member since</dt>
+                            <dd>{{ user["created_at"][:10] }}</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="profile-stat-card">
+                        <div class="stat-icon stat-icon--green">
+                            <i data-lucide="receipt"></i>
+                        </div>
+                        <div class="stat-body">
+                            <p class="stat-value">{{ stats["total_count"] }}</p>
+                            <p class="stat-label">Expenses logged</p>
+                        </div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <div class="stat-icon stat-icon--amber">
+                            <i data-lucide="indian-rupee"></i>
+                        </div>
+                        <div class="stat-body">
+                            <p class="stat-value">₹{{ "%.2f"|format(stats["total_amount"]) }}</p>
+                            <p class="stat-label">Total spent</p>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- Right column: edit form -->
+            <section class="profile-card profile-form-card">
+                <h2 class="profile-section-title">Edit profile</h2>
+
+                {% if error %}
+                <div class="auth-error">{{ error }}</div>
+                {% endif %}
+                {% if success %}
+                <div class="auth-success">{{ success }}</div>
+                {% endif %}
+
+                <form method="POST" action="/profile">
+
+                    <div class="form-group">
+                        <label for="name">Display name</label>
+                        <input type="text" id="name" name="name"
+                               class="form-input"
+                               value="{{ user['name'] }}"
+                               placeholder="Your name"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email_readonly">Email address</label>
+                        <input type="email" id="email_readonly"
+                               class="form-input form-input--readonly"
+                               value="{{ user['email'] }}"
+                               disabled>
+                        <p class="form-hint">Email cannot be changed.</p>
+                    </div>
+
+                    <div class="profile-divider">
+                        <span>Change password</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new_password">New password <span class="form-optional">(optional)</span></label>
+                        <input type="password" id="new_password" name="new_password"
+                               class="form-input"
+                               placeholder="Leave blank to keep current password"
+                               autocomplete="new-password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm new password</label>
+                        <input type="password" id="confirm_password" name="confirm_password"
+                               class="form-input"
+                               placeholder="Re-enter new password"
+                               autocomplete="new-password">
+                    </div>
+
+                    <button type="submit" class="btn-submit">Save changes</button>
+                </form>
+            </section>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>lucide.createIcons();</script>
+{% endblock %}

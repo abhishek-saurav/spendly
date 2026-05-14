@@ -55,6 +55,44 @@ def get_user_by_email(email):
     return user
 
 
+def get_user_by_id(user_id):
+    conn = get_db()
+    user = conn.execute(
+        "SELECT * FROM users WHERE id = ?", (user_id,)
+    ).fetchone()
+    conn.close()
+    return user
+
+
+def update_user(user_id, name, password_hash):
+    conn = get_db()
+    if password_hash is not None:
+        conn.execute(
+            "UPDATE users SET name = ?, password_hash = ? WHERE id = ?",
+            (name, password_hash, user_id),
+        )
+    else:
+        conn.execute(
+            "UPDATE users SET name = ? WHERE id = ?",
+            (name, user_id),
+        )
+    conn.commit()
+    conn.close()
+
+
+def get_expense_stats(user_id):
+    conn = get_db()
+    row = conn.execute(
+        "SELECT COUNT(*) AS total_count, COALESCE(SUM(amount), 0.0) AS total_amount"
+        " FROM expenses WHERE user_id = ?",
+        (user_id,),
+    ).fetchone()
+    conn.close()
+    if row is None:
+        return {"total_count": 0, "total_amount": 0.0}
+    return {"total_count": row["total_count"], "total_amount": row["total_amount"]}
+
+
 def seed_db():
     conn = get_db()
     if conn.execute("SELECT 1 FROM users LIMIT 1").fetchone():
