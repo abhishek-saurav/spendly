@@ -1,11 +1,19 @@
 import re
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from database.db import get_db, init_db, seed_db, create_user, get_user_by_email, get_user_by_id, update_user, get_expense_stats
 
+from routes.history import history_bp
+from routes.stats import stats_bp
+from routes.categories import categories_bp
+
 app = Flask(__name__)
 app.secret_key = "spendly-dev-secret"
+
+app.register_blueprint(history_bp)
+app.register_blueprint(stats_bp)
+app.register_blueprint(categories_bp)
 
 with app.app_context():
     init_db()
