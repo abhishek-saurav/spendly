@@ -1,6 +1,7 @@
 ---
 name: spendly-ui-designer
 description: Generates modern, production-ready UI components and pages for Spendly — a personal expense tracker built with Python/Flask, SQLite, and Jinja2 templates. Use this skill whenever the user asks to design, create, build, redesign, or improve any UI element for Spendly. Triggers on phrases like "design the page", "create UI for", "build component for", "redesign", "improve the layout", or any Spendly frontend work. Always use this skill for Spendly UI tasks even if the request seems simple — consistency depends on it.
+disable-model-invocation: true
 ---
 
 # Spendly UI Designer
