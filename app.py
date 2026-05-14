@@ -2,7 +2,7 @@ import re
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from database.db import get_db, init_db, seed_db, create_user, get_user_by_email
+from database.db import get_db, init_db, seed_db, create_user, get_user_by_email, get_user_by_id, update_user, get_expense_stats
 
 app = Flask(__name__)
 app.secret_key = "spendly-dev-secret"
@@ -88,9 +88,39 @@ def logout():
     return redirect(url_for("landing"))
 
 
-@app.route("/profile")
+@app.route("/profile", methods=["GET", "POST"])
 def profile():
-    return "Profile page — coming in Step 4"
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+
+    user = get_user_by_id(session["user_id"])
+    stats = get_expense_stats(session["user_id"])
+
+    if request.method == "GET":
+        return render_template("profile.html", user=user, stats=stats)
+
+    name = request.form.get("name", "").strip()
+    new_password = request.form.get("new_password", "")
+    confirm_password = request.form.get("confirm_password", "")
+
+    if not name:
+        return render_template("profile.html", user=user, stats=stats,
+                               error="Name is required.")
+    if new_password:
+        if len(new_password) < 8:
+            return render_template("profile.html", user=user, stats=stats,
+                                   error="Password must be at least 8 characters.")
+        if new_password != confirm_password:
+            return render_template("profile.html", user=user, stats=stats,
+                                   error="Passwords do not match.")
+
+    password_hash = generate_password_hash(new_password) if new_password else None
+    update_user(session["user_id"], name, password_hash)
+    session["user_name"] = name
+
+    user = get_user_by_id(session["user_id"])
+    return render_template("profile.html", user=user, stats=stats,
+                           success="Profile updated.")
 
 
 @app.route("/expenses/add")
